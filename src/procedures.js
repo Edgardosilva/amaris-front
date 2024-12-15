@@ -1,0 +1,73 @@
+export const procedures = [
+    {
+      id: 1,
+      name: "Limpieza Facial Básica",
+      duration: 45,
+      box: "Cualquier box",
+      concurrentSessions: 1,
+    },
+    {
+      id: 2,
+      name: "Limpieza Facial Premium",
+      duration: 90,
+      box: "Cualquier box",
+      concurrentSessions: 1,
+    },
+    {
+      id: 3,
+      name: "Limpieza Facial Superpremium",
+      duration: 120,
+      box: "Cualquier box",
+      concurrentSessions: 1,
+    },
+    {
+      id: 4,
+      name: "Masaje (30 min)",
+      duration: 30,
+      box: "Cualquier box",
+      concurrentSessions: 3,
+    },
+    {
+      id: 5,
+      name: "Masaje (45 min)",
+      duration: 45,
+      box: "Cualquier box",
+      concurrentSessions: 3,
+    },
+    {
+      id: 6,
+      name: "Entrenamiento Funcional",
+      duration: 60,
+      box: "Solo en gym",
+      concurrentSessions: 1,
+    },
+    {
+      id: 7,
+      name: "Drenaje Linfático",
+      duration: 60,
+      box: "Cualquier box",
+      concurrentSessions: 3,
+    },
+    {
+      id: 8,
+      name: "Presoterapia",
+      duration: 60,
+      box: "Cualquier box",
+      concurrentSessions: 1,
+    },
+    {
+      id: 9,
+      name: "Lifting de Pestañas",
+      duration: 120,
+      box: "Cualquier box",
+      concurrentSessions: 1,
+    },
+    {
+      id: 10,
+      name: "Radiofrecuencia Facial",
+      duration: 45,
+      box: "Solo en box 2",
+      concurrentSessions: 1,
+    },
+  ];
+  
