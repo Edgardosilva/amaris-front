@@ -5,6 +5,7 @@ export const procedures = [
       duration: 45,
       box: "Cualquier box",
       concurrentSessions: 1,
+      imgUrl: "/img/limpieza-facial-.jpg",
     },
     {
       id: 2,
@@ -12,6 +13,7 @@ export const procedures = [
       duration: 90,
       box: "Cualquier box",
       concurrentSessions: 1,
+      imgUrl: "/img/limpieza-facial-.jpg",
     },
     {
       id: 3,
@@ -19,6 +21,7 @@ export const procedures = [
       duration: 120,
       box: "Cualquier box",
       concurrentSessions: 1,
+      imgUrl: "/img/limpieza-facial-.jpg",
     },
     {
       id: 4,
@@ -26,6 +29,7 @@ export const procedures = [
       duration: 30,
       box: "Cualquier box",
       concurrentSessions: 3,
+      imgUrl: "/img/masaje-reductivo.jpg",
     },
     {
       id: 5,
@@ -33,6 +37,7 @@ export const procedures = [
       duration: 45,
       box: "Cualquier box",
       concurrentSessions: 3,
+      imgUrl: "/img/masaje-reductivo.jpg",
     },
     {
       id: 6,
@@ -40,6 +45,7 @@ export const procedures = [
       duration: 60,
       box: "Solo en gym",
       concurrentSessions: 1,
+      imgUrl: "/img/Entrenamiento.jpg",
     },
     {
       id: 7,
@@ -47,6 +53,7 @@ export const procedures = [
       duration: 60,
       box: "Cualquier box",
       concurrentSessions: 3,
+      imgUrl: "/img/drenaje.jpg",
     },
     {
       id: 8,
@@ -54,6 +61,7 @@ export const procedures = [
       duration: 60,
       box: "Cualquier box",
       concurrentSessions: 1,
+      imgUrl: "/img/presoterapia.jpg",
     },
     {
       id: 9,
@@ -61,6 +69,7 @@ export const procedures = [
       duration: 120,
       box: "Cualquier box",
       concurrentSessions: 1,
+      imgUrl: "/img/lifting.jpg",
     },
     {
       id: 10,
@@ -68,6 +77,7 @@ export const procedures = [
       duration: 45,
       box: "Solo en box 2",
       concurrentSessions: 1,
+      imgUrl: "/img/radiofrecuencia.jpeg",
     },
   ];
   

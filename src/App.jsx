@@ -24,11 +24,9 @@ function App() {
 });
 
   return (
-    <main className=" bg-slate-100">
-      <Navbar />
-      <section className="flex">
-        <Sidebar />
-        <div className="flex flex-col h-[600px] items-center justify-center mx-auto gap-10">
+    <main className="">
+      <section className="">
+        <div className="">
           {!loader && !isProcedure && (
             <FormAppoiment
               formData={formData}

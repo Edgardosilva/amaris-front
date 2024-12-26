@@ -83,7 +83,7 @@ const DateResume = ({ formData }) => {
   
 
   return (
-    <form className="p-4 mt-20 bg-white rounded-md shadow-md" onSubmit={agendarCita}>
+    <form className="p-4 m-10 bg-white rounded-md shadow-md" onSubmit={agendarCita}>
       <div className="px-4 sm:px-0">
         <h3 className="font-bold text-3xl text-[#a6d230]">Resumen de su cita</h3>
         <p className="text-md font-semibold text-[#52a2b2]">Por favor verifique sus datos antes de continuar</p>

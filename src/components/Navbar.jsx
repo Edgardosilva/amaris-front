@@ -2,7 +2,7 @@ import React from 'react';
 
 const Navbar = () => {
     return (
-        <nav className='shadow-md'>
+        <nav className='shadow-md fixed w-[1200px]' >
             <section className='flex justify-between items-center bg-white p-4 border-b border-gray-100'>
                 <img src="/img/amarisLogo.png" alt="logo" className='w-16 {ml-7'/>
                 <ul className='flex text-xl' >
