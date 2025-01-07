@@ -3,6 +3,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './CalendarStyles.css';
 import DropdownTime from './DropdownTime';
+import { useEffect } from 'react';
 
 const procedures = {
   "Limpieza Facial Básica": 45,
@@ -19,20 +20,44 @@ const procedures = {
 
 const CalendarWithTimes = ({ formData, setFormData, isFormData, setIsFormData }) => {
   const [nameProcedure, setNameProcedure] = useState('seleccionado');
+  const [loading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [availableTimes, setAvailableTimes] = useState([]);
-  const [highlightedSlots, setHighlightedSlots] = useState([]);
+  const [selectedRange, setSelectedRange] = useState([]);
   const [isTimeSelected, setIsTimeSelected] = useState(false);
   // const [avaibleBoxes, setAvaibleBoxes] = useState(['Cualquier box', 'Solo en gym']);
 
   const unavailableDates = ['2024-11-13', '2024-11-15', '2024-11-14']; // Fechas no disponibles
-  
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
     setNameProcedure(formData.procedimiento.name);
     generateAvailableTimes();
   };
+
+  
+  const fetchAvailableTimes = async (selectedDate) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`http://localhost:3000/appointments/available?selectedDate=${selectedDate}`);
+      const data = await response.json();
+      setAvailableTimes(data.availableTimes || []);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching available times:", error);
+      setAvailableTimes([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedDate) {
+      fetchAvailableTimes(selectedDate);
+    }
+  }, [selectedDate]);
+  
 
   const disableTile = ({ date, view }) => {
     if (view === 'month') {
@@ -50,83 +75,58 @@ const CalendarWithTimes = ({ formData, setFormData, isFormData, setIsFormData })
     setIsFormData(!isFormData);
   }
 
-  const generateAvailableTimes = () => {
-    const times = [];
-    let startTime = 9 * 60; // Inicio a las 9:00 AM en minutos
-    const endTime = 18 * 60; // Final a las 6:00 PM en minutos
-    const interval = 15; // Intervalos de 15 minutos
-    while (startTime < endTime) {
-      const hours = Math.floor(startTime / 60);
-      const minutes = startTime % 60;
-      const time = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
-      times.push({ time, isAvailable: true });
-      startTime += interval;
+  const handleTimeClick = (startTime) => {
+    const duration = formData.procedimiento.duration; // Duración en minutos
+    const start = new Date(`2024-12-26T${startTime}`);
+    const range = [start.toTimeString().slice(0, 5)]; // Incluir el tiempo inicial en formato HH:mm
+  
+    // Agregar intervalos de 15 minutos hasta cubrir la duración
+    for (let i = 15; i <= duration; i += 15) {
+      const nextTime = new Date(start.getTime() + i * 60 * 1000);
+      range.push(nextTime.toTimeString().slice(0, 5));
     }
-    setAvailableTimes(times);
-  };
-
-  const handleAppointmentBooking = (selectedTime) => {
-    // const selectedProcedureConcurrentSessions = formData.procedimiento.concurrentSessions;
-    // if (selectedProcedureConcurrentSessions === 3) {
-    //   console.log('sesiones simultaneas para este procedimiento = 3');
-    // }
-    const procedureDuration = procedures[formData.procedimiento.name]; 
-    const startSlotInMinutes = timeToMinutes(selectedTime);
-    const endSlotInMinutes = startSlotInMinutes + procedureDuration;
-    const newHighlightedSlots = availableTimes
-      .filter(slot => {
-        const slotTimeInMinutes = timeToMinutes(slot.time);
-        return (
-          slotTimeInMinutes >= startSlotInMinutes && 
-          slotTimeInMinutes < endSlotInMinutes + 15 
-        );
-      })
-      .map(slot => slot.time);
-    setHighlightedSlots(newHighlightedSlots);
-    setIsTimeSelected(!isTimeSelected);
-    setStartTime(selectedTime);
+    setIsTimeSelected(true);
+    setSelectedRange(range);
   };
   
-
-  const timeToMinutes = (time) => {
-    const [hours, minutes] = time.split(':').map(Number);
-    return hours * 60 + minutes; // Convierte la hora a minutos
+  const handleDayClick = (date) => {
+    setSelectedDate(date.toISOString().split("T")[0]); // Guardar solo la fecha sin la hora
+    setSelectedRange([]); // Limpiar el rango al cambiar de día
   };
   
 
   return (
-    <div className="flex space-x-8 p-12">
+    <div className="flex p-12 flex-col">
       <div>
-        <h2 className="text-lg font-semibold text-gray-700 mb-4">Selecciona una fecha:</h2>
+        <h2 className="text-lg font-semibold text-gray-700 mb-4">{`Selecciona un horario para ${formData.procedimiento?.name || 'el procedimiento seleccionado'}`}</h2>
         <Calendar
-          onChange={handleDateChange}
+          onChange={handleDayClick}
           value={selectedDate}
           className="rounded-md shadow-md"
           tileDisabled={disableTile}
         />
       </div>
 
-      <div className="w-64">
+      <div className="mt-10">
         {selectedDate && (
           <div>
-            <h3 className="text-md font-medium text-gray-700 mb-4">
-              Horarios disponibles para {nameProcedure} el {selectedDate.toDateString()}:
-            </h3>
-            <div className="flex flex-col gap-2 max-h-64 overflow-y-auto">
-              {availableTimes.map((slot, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAppointmentBooking(slot.time)}
-                  className={`p-2 rounded-md ${highlightedSlots.includes(slot.time)
-                    ? 'bg-green-400' // Color para los horarios resaltados
-                    : 'bg-white hover:bg-green-100'
-                  }`}
-                  disabled={!slot.isAvailable}
-                >
-                  {slot.time}
-                </button>
-              ))}
-            </div>
+            <h3 className='text-lg font-semibold text-gray-700 mb-4'>Horarios disponibles para: {new Date(selectedDate).toDateString()}</h3>
+            <ul className="mt-4">
+              {availableTimes.map((time, index) => {
+                const isInRange = selectedRange.includes(time); // Verifica si el horario está en el rango
+
+                return (
+                  <li
+                    key={index}
+                    onClick={() => handleTimeClick(time)}
+                    className={` hover:bg-green-100 cursor-pointer py-2 px-4 rounded-md mb-2 text-gray-700 ${isInRange ? "bg-green-100" : "bg-gray-100"
+                      }`}
+                  >
+                    {time}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         )}
         {

@@ -5,6 +5,7 @@ import Procedures from "./components/Procedures"
 import DateResume from "./components/DateResume"
 import Sidebar from "./components/Sidebar"
 import { useState } from 'react';
+import Layout from "./components/Layout"
 
 function App() {
 
@@ -24,42 +25,45 @@ function App() {
 });
 
   return (
-    <main className="">
-      <section className="">
-        <div className="">
-          {!loader && !isProcedure && (
-            <FormAppoiment
-              formData={formData}
-              setFormData={setFormData}
-              setLoader={setLoader}
-            />
-          )}
-          {loader && !isProcedure && (
-            <Procedures
-              formData={formData}
-              setFormData={setFormData}
-              isProcedure={isProcedure}
-              setIsProcedure={setIsProcedure}
-            />
-          )}
-          {isProcedure && !isFormData && (
-            <CalendarWithTimes 
-              formData={formData} 
-              setFormData={setFormData} 
-              isFormData={isFormData}
-              setIsFormData={setIsFormData}/>
-          )}
-          {
-            isFormData && (
-              <DateResume
+    <Layout>
+      <main className="">
+        <section className="">
+          <div className="">
+            {!loader && !isProcedure && (
+              <FormAppoiment
                 formData={formData}
                 setFormData={setFormData}
+                setLoader={setLoader}
               />
-            )
-          }
-        </div>
-      </section>
-    </main>
+            )}
+            {loader && !isProcedure && (
+              <Procedures
+                formData={formData}
+                setFormData={setFormData}
+                isProcedure={isProcedure}
+                setIsProcedure={setIsProcedure}
+              />
+            )}
+            {isProcedure && !isFormData && (
+              <CalendarWithTimes
+                formData={formData}
+                setFormData={setFormData}
+                isFormData={isFormData}
+                setIsFormData={setIsFormData} />
+            )}
+            {
+              isFormData && (
+                <DateResume
+                  formData={formData}
+                  setFormData={setFormData}
+                />
+              )
+            }
+          </div>
+        </section>
+      </main>
+    </Layout>
+
   )
 }
 

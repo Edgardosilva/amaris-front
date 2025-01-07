@@ -9,7 +9,6 @@ const Procedures = ({ formData, setFormData, setIsProcedure, isProcedure }) => {
     const [procedimientos, setProcedimientos] = useState(procedures);
 
 
-
     const findprocedure = (id) => {
         return procedures.find((procedure) => procedure.id === id);
     }
@@ -38,7 +37,7 @@ const Procedures = ({ formData, setFormData, setIsProcedure, isProcedure }) => {
                     <div
                         key={procedure.id}
                         onClick={() => handleClick(procedure.id)}
-                        className={`text-sm w-[300px] p-6 rounded-md shadow-md cursor-pointer ${selectedId === procedure.id ? 'bg-blue-500 text-white' : 'bg-white'
+                        className={`text-sm w-[300px] p-6 rounded-md shadow-md cursor-pointer ${selectedId === procedure.id ? 'bg-green-100 text-white' : 'bg-white'
                             }`}
                     >
                         <div className='w-full h-40 flex items-center justify-center overflow-hidden rounded-md mb-3'>
