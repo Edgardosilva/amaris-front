@@ -68,9 +68,7 @@ const CalendarWithTimes = ({ formData, setFormData, isFormData, setIsFormData })
   };
 
   const btnContinue = () => {
-    const opciones = { month: 'short', day: 'numeric', year: 'numeric' };
-    const fechaFormateada = selectedDate.toLocaleDateString('en-US', opciones);
-    const formWithDateTime = { ...formData, fecha: fechaFormateada, hora: startTime };
+    const formWithDateTime = { ...formData, fecha: selectedDate, hora: startTime };
     setFormData(formWithDateTime);
     setIsFormData(!isFormData);
   }
@@ -79,12 +77,14 @@ const CalendarWithTimes = ({ formData, setFormData, isFormData, setIsFormData })
     const duration = formData.procedimiento.duration; // Duración en minutos
     const start = new Date(`2024-12-26T${startTime}`);
     const range = [start.toTimeString().slice(0, 5)]; // Incluir el tiempo inicial en formato HH:mm
-  
+
+
     // Agregar intervalos de 15 minutos hasta cubrir la duración
     for (let i = 15; i <= duration; i += 15) {
       const nextTime = new Date(start.getTime() + i * 60 * 1000);
       range.push(nextTime.toTimeString().slice(0, 5));
     }
+    setStartTime(startTime);
     setIsTimeSelected(true);
     setSelectedRange(range);
   };

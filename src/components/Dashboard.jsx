@@ -1,13 +1,22 @@
 import React from "react";
 import "../components/Dashboard.css";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+
+  const navigate = useNavigate();
+
+  const logout = () => {
+    sessionStorage.removeItem('access_token');
+    navigate('/login');
+  }
+
   return <div>
     <nav className="bg-[#1C1C1C] text-white">
         <ul className="flex justify-between p-2">
           <li className='text-xl font-serif pl-5'>AMARISWEB</li>
           <li>NUEVA CITA</li>
-          <li>SALIR</li>
+          <button onClick={logout} className="border border-white" >SALIR</button>
         </ul>
       </nav>
       <section className="flex  h-screen">
