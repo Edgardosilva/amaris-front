@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { use } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Login = () => {
 
@@ -21,24 +22,48 @@ const Login = () => {
         try {
             e.preventDefault();
             const response = await fetch("http://localhost:3000/login", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                "email": userEmail,
-                "contraseña": userPassword,
-              }),
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    "email": userEmail,
+                    "contraseña": userPassword,
+                }),
             });
-            const data = await response.json();
-            const token = data.token;
-            sessionStorage.setItem('access_token', token);
-            console.log("Login exitoso");
-            navigate('/userdashboard');
-          } catch (error) {
+    
+            if (response.ok) {
+                const data = await response.json();
+                const token = data.token;
+                sessionStorage.setItem('access_token', token);
+                console.log("Login exitoso");
+    
+                // 🔹 Muestra la alerta y espera a que termine antes de navegar
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Sesión iniciada correctamente!",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    navigate('/'); // 🔹 Navega solo después de que la alerta desaparezca
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Correo o contraseña incorrectos",
+                });
+            }
+        } catch (error) {
             console.log(error);
-          }
-    }
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Hubo un problema con el servidor",
+            });
+        }
+    };
 
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

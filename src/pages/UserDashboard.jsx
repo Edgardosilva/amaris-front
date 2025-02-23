@@ -33,7 +33,6 @@ const UserDashboard = () => {
             console.error('Error de autenticación:', error.message);
             return false; // No autenticado
         }
-        navigate('/userdashboard');
     };
     
 

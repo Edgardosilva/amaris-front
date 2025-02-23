@@ -1,6 +1,61 @@
 import React from 'react';
+import Swal from 'sweetalert2';
 
 const Register = () => {
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const data = new FormData(form);
+        const nombre = data.get('nombre');
+        const apellido = data.get('apellido');
+        const email = data.get('email');
+        const contraseña = data.get('contraseña');
+        const telefono = data.get('telefono');
+    
+        try {
+            const response = await fetch('http://localhost:3000/login/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ nombre, apellido, email, contraseña, telefono }),
+            });
+    
+            const result = await response.json(); // Obtiene la respuesta en JSON
+    
+            if (response.ok) {
+                // 🔹 Muestra alerta de éxito
+                await Swal.fire({
+                    icon: "success",
+                    title: "Registro exitoso!",
+                    text: "Tu cuenta ha sido creada correctamente.",
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+    
+                console.log("Registro exitoso:", result);
+                form.reset(); // 🔹 Limpia el formulario después de registrar el usuario
+            } else {
+                // 🔹 Muestra alerta de error con el mensaje del backend si existe
+                Swal.fire({
+                    icon: "error",
+                    title: "Error en el registro",
+                    text: result.message || "Hubo un problema al crear tu cuenta.",
+                });
+            }
+        } catch (error) {
+            console.error("Error:", error.message);
+            // 🔹 Muestra alerta en caso de error de conexión
+            Swal.fire({
+                icon: "error",
+                title: "Error de conexión",
+                text: "No se pudo conectar con el servidor. Intenta nuevamente.",
+            });
+        }
+    };
+    
+
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -15,7 +70,7 @@ const Register = () => {
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form action="#" method="POST" className="space-y-6">
+                <form action="submit" method="POST" className="space-y-6" onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="nombre" className="block text-sm/6 font-medium text-gray-900">
                             Nombre
@@ -81,7 +136,7 @@ const Register = () => {
                             <input
                                 id="contraseña"
                                 name="contraseña"
-                                type="contraseña"
+                                type="password"
                                 required
                                 autoComplete="current-password"
                                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"

@@ -1,7 +1,27 @@
 import React from 'react';
 import { procedures } from '../procedures'
+import { useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
+import Swal from 'sweetalert2';
 
-const DateResume = ({ formData }) => {
+const DateResume = ({ formData, setFormData }) => {
+
+  useEffect(() => {
+    const getUserIdFromToken = () => {
+      try {
+        const token = sessionStorage.getItem('access_token');
+        if (token) {
+          const decoded = jwtDecode(token);
+          setFormData({ ...formData, idUsuarioActual: decoded.id });
+          console.log(decoded.id);
+        }
+      } catch (error) {
+        console.error('Error al extraer el usuario_id:', error);
+      }
+    }
+    getUserIdFromToken(); 
+  }, []); 
+  
 
   const transformarHora = (hora) => {
     const [hours, minutes] = hora.split(":").map(Number);
@@ -24,37 +44,65 @@ const DateResume = ({ formData }) => {
     return `${year}-${month}-${day}`; // Formato YYYY-MM-DD
   };
   
-  const horaTransformada = transformarHora(formData.hora);
-  const horaTermino = calcularHoraTermino(horaTransformada, formData.procedimiento.duration);
-  const fechaTransformada = transformarFecha(formData.fecha);
-  
+    const horaTransformada = transformarHora(formData.hora);
+    const horaTermino = calcularHoraTermino(horaTransformada, formData.procedimiento.duration);
+    const fechaTransformada = transformarFecha(formData.fecha);
 
-  const agendarCita = async (e) => {
-    try {
-      e.preventDefault();
-      const response = await fetch("http://localhost:3000/appointments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          "usuarioId": 1,
-          "procedimiento_id": formData.procedimiento.id,
-          "fecha": fechaTransformada,
-          "hora": horaTransformada,
-          "horaTermino": horaTermino,
-          "duracion": formData.procedimiento.duration,
-          "box": procedures[formData.procedimiento.id - 1].box,
-          "concurrentSessions": procedures[formData.procedimiento.id - 1].concurrentSessions,
-          "estado": "Pendiente"
-        }),
-      });
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+    const agendarCita = async (e) => {
+      try {
+          e.preventDefault();
+          const response = await fetch("http://localhost:3000/appointments", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                  "usuarioId": formData.idUsuarioActual,
+                  "procedimiento_id": formData.procedimiento.id,
+                  "fecha": fechaTransformada,
+                  "hora": horaTransformada,
+                  "horaTermino": horaTermino,
+                  "paciente_atendido": `${formData.nombre} ${formData.apellido}`,
+                  "duracion": formData.procedimiento.duration,
+                  "box": procedures[formData.procedimiento.id - 1].box,
+                  "concurrentSessions": procedures[formData.procedimiento.id - 1].concurrentSessions,
+                  "estado": "Pendiente"
+              }),
+          });
+  
+          const data = await response.json();
+  
+          if (response.ok) {
+              // 🔹 Muestra una alerta de éxito y espera antes de continuar
+              await Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "Cita agendada correctamente!",
+                  showConfirmButton: false,
+                  timer: 2000
+              });
+  
+              console.log("Cita agendada:", data);
+              // Aquí puedes redirigir o limpiar el formulario si es necesario
+          } else {
+              // 🔹 Muestra una alerta de error con la respuesta del servidor
+              Swal.fire({
+                  icon: "error",
+                  title: "Error al agendar cita",
+                  text: data.message || "Hubo un problema al procesar la solicitud.",
+              });
+          }
+      } catch (error) {
+          console.log("Error:", error);
+          // 🔹 Muestra una alerta si ocurre un error inesperado
+          Swal.fire({
+              icon: "error",
+              title: "Error de conexión",
+              text: "No se pudo conectar con el servidor. Intenta nuevamente.",
+          });
+      }
+  };
+  
 
   // const showData = (e) => {
   //   e.preventDefault();
@@ -105,15 +153,6 @@ const DateResume = ({ formData }) => {
               className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"
               type="text"
               value={`${formData.procedimiento.duration} minutos`}
-              readOnly
-            />
-          </div>
-          <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <label className="text-sm/6 font-medium text-gray-900">Box de atención</label>
-            <input
-              className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"
-              type="text"
-              value="Box 1"
               readOnly
             />
           </div>

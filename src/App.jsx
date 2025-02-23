@@ -21,7 +21,8 @@ function App() {
     procedimiento: {},
     fecha: "",
     hora: "",
-    boxAsignado: ""
+    boxAsignado: "",
+    idUduarioActual:''
 });
 
   return (
