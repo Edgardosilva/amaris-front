@@ -40,6 +40,7 @@ const AdminCalendar = () => {
       plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
       initialView="timeGridWeek"
       events={events}
+      height={650}
       headerToolbar={{
         left: 'prev,next today',
         center: 'title',

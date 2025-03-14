@@ -4,15 +4,13 @@ import Navbar from './Navbar';
 
 const Layout = ({ children }) => {
     return (
-        <main className="bg-slate-100 h-screen flex flex-col items-center ">
-            {/* Envuelve el Navbar en un div que tenga el mismo ancho que el contenido */}
-            <div className="w-full flex justify-center">
+        <main className=" w-full h-full flex flex-col items-center bg-gradient-to-r from-teal-200 via-green-100 to-teal-200">
+            <div className="w-full flex justify-center ">
                 <Navbar />
             </div>
-            
-            <section className="flex bg-slate-100 w-full max-w-[1200px]">
-                <Sidebar />
-                <div className="bg-slate-100 h-full w-full flex justify-center mt-[80px] ml-[200px]">
+            <section className="flex w-full ">
+                {/* <Sidebar /> */}
+                <div className=" h-full w-full flex justify-center">
                     {children}
                 </div>
             </section>

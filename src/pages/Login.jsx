@@ -46,7 +46,7 @@ const Login = () => {
                     showConfirmButton: false,
                     timer: 1500
                 }).then(() => {
-                    navigate('/'); // 🔹 Navega solo después de que la alerta desaparezca
+                    navigate('/formAppointment'); // 🔹 Navega solo después de que la alerta desaparezca
                 });
             } else {
                 Swal.fire({

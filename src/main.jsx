@@ -7,8 +7,6 @@ import AppRoutes from './AppRoutes.jsx'
 
 createRoot(document.getElementById('root')).render(
     <AppRoutes>
-       
-            <App />
-    
+        <App />
     </AppRoutes>
 )

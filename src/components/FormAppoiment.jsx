@@ -23,7 +23,7 @@ const FormAppoiment = ({ formData, setFormData, setLoader }) => {
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
                     <div>
-                        <label className="text-gray-700" htmlFor="nombre">Nombre</label>
+                        <label className="text-gray-700" htmlFor="nombre">Nombre del paciente</label>
                         <input id="nombre" type="text" onChange={handleChange} value={formData.nombre} required className="block w-full px-4 py-2 mt-2 text-[#52a2b2] bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" />
                     </div>
 

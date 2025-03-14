@@ -29,7 +29,7 @@ function App() {
     <Layout>
       <main className="">
         <section className="">
-          <div className="">
+          <div className="h-screen">
             {!loader && !isProcedure && (
               <FormAppoiment
                 formData={formData}

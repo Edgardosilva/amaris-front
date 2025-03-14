@@ -24,12 +24,10 @@ const Landing = () => {
 
     return (
         <main className='font-gabarito' >
-            <div className='pb-20'>
-                <Navbar />
-            </div>
             <section>
                 <section>
-                    <div className="bg-gradient-to-r from-teal-200 via-green-100 to-teal-200  text-5xl text-center h-[550px] flex items-center justify-center">
+                    <div className=" w-full bg-gradient-to-r from-teal-200 via-green-100 to-teal-200  text-5xl text-center h-[550px] flex flex-col items-center justify-center">
+                        <Navbar />
                         <section className='flex items-center max-w-[1200px]'>
                             <section className='flex flex-col justify-between h-[320px] p-3 items-start text-left'>
                                 <div className='text-xl'>
@@ -70,8 +68,3 @@ const Landing = () => {
 };
 
 export default Landing;
-
-
-<div className='mt-[83px] bg-gradient-to-r from-teal-200 to-teal-500 w-full h-screen'>
-Esta es la landin page que tiene que estar pintada
-</div>

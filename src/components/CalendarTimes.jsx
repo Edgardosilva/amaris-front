@@ -30,20 +30,22 @@ const CalendarWithTimes = ({ formData, setFormData, isFormData, setIsFormData })
 
   const unavailableDates = ['2024-11-13', '2024-11-15', '2024-11-14']; // Fechas no disponibles
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-    setNameProcedure(formData.procedimiento.name);
-    generateAvailableTimes();
-  };
+  // const handleDateChange = (date) => {
+  //   setSelectedDate(date.toISOString().split("T")[0]);
+  //   setNameProcedure(formData.procedimiento.name);
+  //   // generateAvailableTimes();
+  //   console.log(selectedDate)
+  // };
 
   
   const fetchAvailableTimes = async (selectedDate) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3000/appointments/available?selectedDate=${selectedDate}`);
+    
+      const formattedDate = selectedDate.toISOString().split("T")[0]; 
+      const response = await fetch(`http://localhost:3000/appointments/available?selectedDate=${formattedDate}`);
       const data = await response.json();
       setAvailableTimes(data.availableTimes || []);
-      console.log(data);
     } catch (error) {
       console.error("Error fetching available times:", error);
       setAvailableTimes([]);
@@ -51,6 +53,7 @@ const CalendarWithTimes = ({ formData, setFormData, isFormData, setIsFormData })
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     if (selectedDate) {
@@ -90,56 +93,63 @@ const CalendarWithTimes = ({ formData, setFormData, isFormData, setIsFormData })
   };
   
   const handleDayClick = (date) => {
-    setSelectedDate(date.toISOString().split("T")[0]); // Guardar solo la fecha sin la hora
-    setSelectedRange([]); // Limpiar el rango al cambiar de día
+    // Ajustar la zona horaria para evitar problemas con UTC
+    const localDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  
+    setSelectedDate(localDate);
+    setSelectedRange([]);
+  
+    console.log("Fecha seleccionada:", localDate.toISOString().split("T")[0]);
   };
+  
   
 
   return (
-    <div className="flex p-12 flex-col">
-      <div>
-        <h2 className="text-lg font-semibold text-gray-700 mb-4">{`Selecciona un horario para ${formData.procedimiento?.name || 'el procedimiento seleccionado'}`}</h2>
+    <div className="flex p-12 gap-6">
+      <div className='w-1/2 bg-white h-[390px] '>
         <Calendar
           onChange={handleDayClick}
-          value={selectedDate}
-          className="rounded-md shadow-md"
+          value={selectedDate ? new Date(selectedDate) : null} 
+          className="text-lg max-h-[390px]"
           tileDisabled={disableTile}
         />
       </div>
+      <section className='flex flex-col w-1/2 text-center'>
+        <div className=" bg-white">
+          {selectedDate && (
+            <div className=''>
+              <div className="p-6 flex flex-wrap gap-3 overflow-y-auto h-[390px] justify-center">
+                {availableTimes.map((time, index) => {
+                  const isInRange = selectedRange.includes(time);
 
-      <div className="mt-10">
-        {selectedDate && (
-          <div>
-            <h3 className='text-lg font-semibold text-gray-700 mb-4'>Horarios disponibles para: {new Date(selectedDate).toDateString()}</h3>
-            <ul className="mt-4">
-              {availableTimes.map((time, index) => {
-                const isInRange = selectedRange.includes(time); // Verifica si el horario está en el rango
-
-                return (
-                  <li
-                    key={index}
-                    onClick={() => handleTimeClick(time)}
-                    className={` hover:bg-green-100 cursor-pointer py-2 px-4 rounded-md mb-2 text-gray-700 ${isInRange ? "bg-green-100" : "bg-gray-100"
-                      }`}
-                  >
-                    {time}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        )}
-        {
-          isTimeSelected && (
-            <button
-              onClick={btnContinue}
-              className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-[#52a2b2] rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
-            >
-              Continuar
-            </button>
-          )
-        }
-      </div>
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => handleTimeClick(time)}
+                      className={`w-20 hover:bg-green-100 cursor-pointer rounded-md text-center p-2 ${isInRange ? "bg-green-100" : "bg-gray-100"
+                        }`}
+                    >
+                      {time}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+        <div>
+          {
+              isTimeSelected && (
+                <button
+                  onClick={btnContinue}
+                  className=" mt-5 px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-[#52a2b2] rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+                >
+                  Continuar
+                </button>
+              )
+            }
+        </div>
+      </section>
     </div>
   );
 };

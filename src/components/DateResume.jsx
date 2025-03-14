@@ -138,7 +138,7 @@ const DateResume = ({ formData, setFormData }) => {
       </div>
       <div className="mt-6 border-t border-gray-100">
         <dl className="divide-y divide-gray-100">
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <label className="text-sm/6 font-medium text-gray-900">Procedimiento</label>
             <input
               className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"
@@ -147,7 +147,7 @@ const DateResume = ({ formData, setFormData }) => {
               readOnly
             />
           </div>
-          <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <label className="text-sm/6 font-medium text-gray-900">Duración</label>
             <input
               className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"
@@ -156,7 +156,7 @@ const DateResume = ({ formData, setFormData }) => {
               readOnly
             />
           </div>
-          <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <label className="text-sm/6 font-medium text-gray-900">Fecha</label>
             <input
               className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"
@@ -165,7 +165,7 @@ const DateResume = ({ formData, setFormData }) => {
               readOnly
             />
           </div>
-          <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <label className="text-sm/6 font-medium text-gray-900">Hora</label>
             <input
               className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"
@@ -174,7 +174,7 @@ const DateResume = ({ formData, setFormData }) => {
               readOnly
             />
           </div>
-          <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <label className="text-sm/6 font-medium text-gray-900">Hora Término</label>
             <input
               className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"
@@ -183,7 +183,7 @@ const DateResume = ({ formData, setFormData }) => {
               readOnly
             />
           </div>
-          <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <label className="text-sm/6 font-medium text-gray-900">Nombre del paciente</label>
             <input
               className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"
@@ -192,7 +192,7 @@ const DateResume = ({ formData, setFormData }) => {
               readOnly
             />
           </div>
-          <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <label className="text-sm/6 font-medium text-gray-900">Correo electrónico</label>
             <input
               className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"

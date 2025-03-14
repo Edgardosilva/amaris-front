@@ -5,7 +5,7 @@ import AdminCalendar from '../components/AdminCalendar';
 const AdminDashboard = () => {
     return (
         <Layout>
-            <div className='w-full h-full m-16 '>
+            <div className='w-[1200px] mt-6 '>
                 <AdminCalendar />
             </div>
         </Layout>

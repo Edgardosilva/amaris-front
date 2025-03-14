@@ -49,9 +49,9 @@ const Dashboard = () => {
       <Layout>
         <div >
           <section className="flex  h-screen">
-            <section className=" w-full p-10">
-              <h1 className=" text-3xl font-bold">Citas Agendadas</h1>
-              <div className="filter-container border">
+            <section className=" w-full mt-6">
+              <h1 className=" text-2xl font-bold text-[#208ea4] mb-2">Citas Agendadas</h1>
+              <div className="filter-container ">
                 <form action="">
                   <label htmlFor="search-word">Buscar:</label>
                   <input
