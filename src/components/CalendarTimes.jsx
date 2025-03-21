@@ -105,8 +105,8 @@ const CalendarWithTimes = ({ formData, setFormData, isFormData, setIsFormData })
   
 
   return (
-    <div className="flex p-12 gap-6">
-      <div className='w-1/2 bg-white h-[390px] '>
+    <div className="md:max-w-[1200px] flex p-6 md:p-12 gap-3 md:gap-6 flex-wrap md:flex-nowrap">
+      <div className='md:w-1/2 bg-white h-[390px] '>
         <Calendar
           onChange={handleDayClick}
           value={selectedDate ? new Date(selectedDate) : null} 
@@ -114,11 +114,11 @@ const CalendarWithTimes = ({ formData, setFormData, isFormData, setIsFormData })
           tileDisabled={disableTile}
         />
       </div>
-      <section className='flex flex-col w-1/2 text-center'>
+      <section className='flex flex-col md:w-1/2 text-center'>
         <div className=" bg-white">
           {selectedDate && (
             <div className=''>
-              <div className="p-6 flex flex-wrap gap-3 overflow-y-auto h-[390px] justify-center">
+              <div className="p-6 flex flex-wrap gap-3 overflow-y-auto h-[300px] md:h-[390px] justify-center">
                 {availableTimes.map((time, index) => {
                   const isInRange = selectedRange.includes(time);
 

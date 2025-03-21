@@ -28,24 +28,26 @@ const Procedures = ({ formData, setFormData, setIsProcedure, isProcedure }) => {
 
 
     return (
-        <>
-            <div className="flex flex-wrap p-10 justify-center gap-5">
+        <div>
+            <div className="flex flex-wrap p-6 justify-center gap-1 ">
                 <h1 className="w-full text-xl font-semibold text-center text-[#52a2b2] capitalize mb-6">
                     ¿Qué servicio deseas?
                 </h1>
-                {procedures.map((procedure) => (
-                    <div
-                        key={procedure.id}
-                        onClick={() => handleClick(procedure.id)}
-                        className={`hover:bg-[#52a2b2] hover:transition-all text-[14px] w-[300px] p-3 rounded-md shadow-md cursor-pointer ${selectedId === procedure.id ? 'bg-green-100 text-white' : 'bg-white'
-                            }`}
-                    >
-                        <h2 className=" text-md font-semibold text-gray-700">
-                            {procedure.name}
-                        </h2>
-                        <p className="text-gray-600">Duración: {procedure.duration} min</p>
-                    </div>
-                ))}
+                <div className='flex flex-wrap justify-center gap-4 h-[600px] overflow-y-auto md:max-w-[800px]'>
+                    {procedures.map((procedure) => (
+                        <div
+                            key={procedure.id}
+                            onClick={() => handleClick(procedure.id)}
+                            className={`hover:bg-[#52a2b2] flex flex-col justify-center text-center items-center hover:transition-all text-[14px] w-[300px] p-3 rounded-md shadow-md cursor-pointer ${selectedId === procedure.id ? 'bg-green-100 text-white' : 'bg-white'
+                                }`}
+                        >
+                            <h2 className=" text-md font-semibold text-gray-700">
+                                {procedure.name}
+                            </h2>
+                            <p className="text-gray-600">Duración: {procedure.duration} min</p>
+                        </div>
+                    ))}
+                </div>
             </div>
             {
                 selectedId && (
@@ -59,7 +61,7 @@ const Procedures = ({ formData, setFormData, setIsProcedure, isProcedure }) => {
                     </div>
                 )
             }
-        </>
+        </div>
     );
 };
 

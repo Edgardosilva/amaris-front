@@ -11,13 +11,13 @@ const Navbar = () => {
     }
 
     return (
-        <nav className=" font-gabarito shadow-md text-[#208ea4] z-20 w-full flex items-center justify-center bg-white bg-opacity-50 ">
-            <section className="min-w-[1200px] flex justify-between items-center">
+        <nav className="font-gabarito shadow-md text-[#208ea4] z-20 w-full items-center justify-center bg-white bg-opacity-50 ">
+            <section className="md:max-w-[1200px] flex justify-between items-center mx-auto">
                 <img src="/img/amarisLogo.png"
                     alt="logo"
-                    className="p-2 w-16 ml-7"
+                    className="hidden md:flex p-2 w-12 md:w-16 ml-7"
                      />
-                <ul className="flex text-[14px] items-center">
+                <ul className="flex text-[10px] md:text-[14px] items-center p-2 w-full justify-between md:justify-end  h-[50px]">
                     <li className="mr-4 hover:text-[#a6d230] cursor-pointer transition">NOSOTROS</li>
                     {sessionStorage.getItem('access_token') ? <li className="mr-4 hover:text-[#a6d230] cursor-pointer transition" onClick={goToAgendar}>AGENDAR</li> : null}
                     <li className="mr-4 hover:text-[#a6d230] cursor-pointer transition">TRATAMIENTOS</li>

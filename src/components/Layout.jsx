@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
             </div>
             <section className="flex w-full ">
                 {/* <Sidebar /> */}
-                <div className=" h-full w-full flex justify-center">
+                <div className=" h-full w-full flex justify-center ">
                     {children}
                 </div>
             </section>

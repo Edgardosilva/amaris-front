@@ -18,7 +18,7 @@ const FormAppoiment = ({ formData, setFormData, setLoader }) => {
 
     return (
         <section className="m-10 max-w-4xl p-6 bg-white rounded-md shadow-md flex flex-col items-center justify-center ">
-            <h1 className="font-bold text-3xl text-[#a6d230]">Bienvenido a Amaris</h1>
+            <h1 className="font-bold text-3xl text-[#a6d230] text-center">Bienvenido a Amaris</h1>
             <h2 className="text-lg font-semibold text-[#52a2b2] capitalize">¡Agenda tu hora!</h2>
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">

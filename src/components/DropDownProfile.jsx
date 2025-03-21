@@ -28,9 +28,10 @@ const goDashboard = () => {
 }
 
   return (
-    <div>
+    <div >
       <Button
         id="basic-button"
+        size='small'
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
@@ -41,13 +42,13 @@ const goDashboard = () => {
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
-        open={open}
+        open={open}ef
         onClose={handleClose}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={goDashboard} className='gap-3 '>
+        <MenuItem onClick={goDashboard} className='gap-3'>
             <img src="/icons/calendar-check.svg" alt="calendarIcon" className='w-5' />
             Mis citas
         </MenuItem>

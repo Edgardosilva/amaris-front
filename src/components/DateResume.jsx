@@ -131,14 +131,14 @@ const DateResume = ({ formData, setFormData }) => {
   
 
   return (
-    <form className="p-4 m-10 bg-white rounded-md shadow-md" onSubmit={agendarCita}>
-      <div className="px-4 sm:px-0">
-        <h3 className="font-bold text-3xl text-[#a6d230]">Resumen de su cita</h3>
-        <p className="text-md font-semibold text-[#52a2b2]">Por favor verifique sus datos antes de continuar</p>
+    <form className=" p-4 m-5 md:m-10 bg-white rounded-md shadow-md flex flex-col justify-center" onSubmit={agendarCita}>
+      <div className="px-4 py-2">
+        <h3 className="font-bold text-2xl md:text-3xl text-[#a6d230] ">Resumen de su cita</h3>
+        <p className="text-sm md:text-md font-semibold text-[#52a2b2]">Por favor verifique sus datos antes de continuar</p>
       </div>
       <div className="mt-6 border-t border-gray-100">
-        <dl className="divide-y divide-gray-100">
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dl className="divide-y divide-gray-100 flex flex-col gap-2">
+          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 flex flex-col">
             <label className="text-sm/6 font-medium text-gray-900">Procedimiento</label>
             <input
               className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"
@@ -147,7 +147,7 @@ const DateResume = ({ formData, setFormData }) => {
               readOnly
             />
           </div>
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 flex flex-col">
             <label className="text-sm/6 font-medium text-gray-900">Duración</label>
             <input
               className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"
@@ -156,7 +156,7 @@ const DateResume = ({ formData, setFormData }) => {
               readOnly
             />
           </div>
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 flex flex-col">
             <label className="text-sm/6 font-medium text-gray-900">Fecha</label>
             <input
               className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"
@@ -165,7 +165,7 @@ const DateResume = ({ formData, setFormData }) => {
               readOnly
             />
           </div>
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 flex flex-col">
             <label className="text-sm/6 font-medium text-gray-900">Hora</label>
             <input
               className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"
@@ -174,7 +174,7 @@ const DateResume = ({ formData, setFormData }) => {
               readOnly
             />
           </div>
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 flex flex-col">
             <label className="text-sm/6 font-medium text-gray-900">Hora Término</label>
             <input
               className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"
@@ -183,7 +183,7 @@ const DateResume = ({ formData, setFormData }) => {
               readOnly
             />
           </div>
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 flex flex-col">
             <label className="text-sm/6 font-medium text-gray-900">Nombre del paciente</label>
             <input
               className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"
@@ -192,7 +192,7 @@ const DateResume = ({ formData, setFormData }) => {
               readOnly
             />
           </div>
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 flex flex-col">
             <label className="text-sm/6 font-medium text-gray-900">Correo electrónico</label>
             <input
               className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"
@@ -202,7 +202,7 @@ const DateResume = ({ formData, setFormData }) => {
             />
           </div>
           <button
-            className="mt-8 px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-[#52a2b2] rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+            className=" mt-5 md:mt-8 px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-[#52a2b2] rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
             type="submit"
           >
             Agendar

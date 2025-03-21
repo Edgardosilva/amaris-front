@@ -37,7 +37,7 @@ const UserDashboard = () => {
     
 
     return (
-        <div>
+        <div className='bg-gradient-to-r from-teal-200 via-green-100 to-teal-200'>
             {isAuthenticated ? <Dashboard /> : 'Cargando...'}
         </div>
     )

@@ -36,17 +36,18 @@ const AdminCalendar = () => {
   }, []);
 
   return (
-    <FullCalendar
-      plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-      initialView="timeGridWeek"
-      events={events}
-      height={650}
-      headerToolbar={{
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
-      }}
-    />
+    <div className='h-screen'>
+      <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+          initialView="listWeek"
+          events={events}
+          height={650}
+          headerToolbar={{
+            left: 'prev,next today',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+          }}
+        />
+    </div>
   );
 };
 
