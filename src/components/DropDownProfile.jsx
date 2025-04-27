@@ -4,7 +4,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 
-export default function DropDownProfile() {
+export default function DropDownProfile({ user }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const open = Boolean(anchorEl);
@@ -18,10 +18,22 @@ export default function DropDownProfile() {
     setAnchorEl(null);
   };
 
-  const logout = () => {
-    sessionStorage.removeItem('access_token');
-    navigate('/');
-}
+  const goAdminDashboard = () => {
+    navigate('/adminDashboard')
+  }
+
+  const logout = async () => {
+    try {
+      await fetch('http://localhost:3000/login/logout', {
+        method: 'POST',
+        credentials: 'include', 
+      });
+      navigate('/'); // ✅ redirigir al home
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
+  };
+  
 
 const goDashboard = () => {
     navigate('/userdashboard');
@@ -56,6 +68,12 @@ const goDashboard = () => {
             <img src="/icons/logout.svg" alt="contactIcon" className='w-5' />
             Logout
         </MenuItem>
+        {user.email === 'edgardosilva.es@gmail.com' &&
+          <MenuItem onClick={goAdminDashboard} className='gap-3'>
+            <img src="/icons/logout.svg" alt="contactIcon" className='w-5' />
+            Admin
+          </MenuItem>
+        }
       </Menu>
     </div>
   );

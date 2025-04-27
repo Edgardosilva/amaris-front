@@ -6,21 +6,29 @@ import Swal from 'sweetalert2';
 
 const DateResume = ({ formData, setFormData }) => {
 
+
   useEffect(() => {
-    const getUserIdFromToken = () => {
+    const getUserFromCookie = async () => {
       try {
-        const token = sessionStorage.getItem('access_token');
-        if (token) {
-          const decoded = jwtDecode(token);
-          setFormData({ ...formData, idUsuarioActual: decoded.id });
-          console.log(decoded.id);
+        const response = await fetch('http://localhost:3000/login/auth/me', {
+          credentials: 'include'
+        });
+        const data = await response.json();
+        if (data.authenticated && data.user?.id) {
+          setFormData(prevFormData => ({
+            ...prevFormData,
+            idUsuarioActual: data.user.id
+          }));
+          userDataResume.current = formData
+        } else {
+          console.warn('No se pudo obtener el usuario');
         }
       } catch (error) {
-        console.error('Error al extraer el usuario_id:', error);
+        console.error('Error al obtener el usuario desde el backend:', error);
       }
-    }
-    getUserIdFromToken(); 
-  }, []); 
+    };
+    getUserFromCookie();
+  }, []);
   
 
   const transformarHora = (hora) => {
@@ -33,103 +41,104 @@ const DateResume = ({ formData, setFormData }) => {
     const initialTime = new Date();
     initialTime.setHours(hours, minutes, seconds);
     initialTime.setMinutes(initialTime.getMinutes() + duration);
-    return initialTime.toTimeString().split(" ")[0]; // Formato HH:mm:ss
+    return initialTime.toTimeString().split(" ")[0]; 
   };
 
   const transformarFecha = (fecha) => {
-    const date = new Date(fecha); // Convertir la fecha al objeto Date
+    const date = new Date(fecha); 
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Meses son 0-indexados
+    const month = String(date.getMonth() + 1).padStart(2, "0"); 
     const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`; // Formato YYYY-MM-DD
+    return `${year}-${month}-${day}`; 
   };
   
     const horaTransformada = transformarHora(formData.hora);
     const horaTermino = calcularHoraTermino(horaTransformada, formData.procedimiento.duration);
     const fechaTransformada = transformarFecha(formData.fecha);
 
+
     const agendarCita = async (e) => {
+      e.preventDefault();
       try {
-          e.preventDefault();
-          const response = await fetch("http://localhost:3000/appointments", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                  "usuarioId": formData.idUsuarioActual,
-                  "procedimiento_id": formData.procedimiento.id,
-                  "fecha": fechaTransformada,
-                  "hora": horaTransformada,
-                  "horaTermino": horaTermino,
-                  "paciente_atendido": `${formData.nombre} ${formData.apellido}`,
-                  "duracion": formData.procedimiento.duration,
-                  "box": procedures[formData.procedimiento.id - 1].box,
-                  "concurrentSessions": procedures[formData.procedimiento.id - 1].concurrentSessions,
-                  "estado": "Pendiente"
-              }),
-          });
   
-          const data = await response.json();
-  
-          if (response.ok) {
-              // 🔹 Muestra una alerta de éxito y espera antes de continuar
-              await Swal.fire({
-                  position: "center",
-                  icon: "success",
-                  title: "Cita agendada correctamente!",
-                  showConfirmButton: false,
-                  timer: 2000
-              });
-  
-              console.log("Cita agendada:", data);
-              // Aquí puedes redirigir o limpiar el formulario si es necesario
-          } else {
-              // 🔹 Muestra una alerta de error con la respuesta del servidor
-              Swal.fire({
-                  icon: "error",
-                  title: "Error al agendar cita",
-                  text: data.message || "Hubo un problema al procesar la solicitud.",
-              });
-          }
-      } catch (error) {
-          console.log("Error:", error);
-          // 🔹 Muestra una alerta si ocurre un error inesperado
+        const authResponse = await fetch("http://localhost:3000/login/auth/me", {
+          method: "GET",
+          credentials: "include",
+        });
+    
+        const authData = await authResponse.json();
+    
+        if (!authData.authenticated) {
           Swal.fire({
-              icon: "error",
-              title: "Error de conexión",
-              text: "No se pudo conectar con el servidor. Intenta nuevamente.",
+            icon: "error",
+            title: "Sesión expirada",
+            text: "Por favor inicia sesión nuevamente.",
           });
+          return;
+        }
+    
+        const usuarioId = authData.user.id;
+    
+        const result = await Swal.fire({
+          title: "¿Quieres agendar ahora?",
+          text: "Se te enviará un correo de confirmación",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Sí, agendar!",
+        });
+    
+        if (!result.isConfirmed) return;
+    
+        const response = await fetch("http://localhost:3000/appointments", {
+          method: "POST",
+          credentials: "include", 
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            usuarioId: usuarioId,
+            procedimiento_id: formData.procedimiento.id,
+            fecha: fechaTransformada,
+            hora: horaTransformada,
+            horaTermino: horaTermino,
+            paciente_atendido: `${formData.nombre} ${formData.apellido}`,
+            duracion: formData.procedimiento.duration,
+            box: procedures[formData.procedimiento.id - 1].box,
+            concurrentSessions: procedures[formData.procedimiento.id - 1].concurrentSessions,
+            estado: "Pendiente",
+          }),
+        });
+    
+        const data = await response.json();
+    
+        if (response.ok) {
+          Swal.fire({
+            position: "center",
+            title: "¡Cita agendada!",
+            text: "Revisa tu correo para confirmarla.",
+            icon: "success",
+          });
+
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error al agendar la cita",
+            text: data.message || "Hubo un problema al procesar la solicitud.",
+          });
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error de conexión",
+          text: "No se pudo conectar con el servidor. Intenta nuevamente.",
+        });
       }
-  };
+    };
+    
   
-
-  // const showData = (e) => {
-  //   e.preventDefault();
-  //   const data = {
-  //     "idProcedimiento": formData.procedimiento.id,
-  //     "Procedimiento": formData.procedimiento.name,
-  //     "Duración": `${formData.procedimiento.duration} minutos`,
-  //     "Box de atención": "Box 1",
-  //     "Fecha": formData.fecha,
-  //     "Hora": `${formData.hora} hrs`,
-  //     "Nombre del paciente": `${formData.nombre} ${formData.apellido}`,
-  //     "Correo electrónico": formData.correo,
-  //   };
-  //   console.log(data);
-  // };
-
-  // "usuarioId": 1,
-  // "procedimiento_id": 10,
-  // "fecha": "2024-11-19",
-  // "hora": "11:00:00",
-  // "horaTermino": "11:30:00",
-  // "duracion": 30,
-  // "box": "Solo en gym",
-  // "concurrentSessions": 1,
-  // "estado": "Pendiente"
-  
-
   return (
     <form className=" p-4 m-5 md:m-10 bg-white rounded-md shadow-md flex flex-col justify-center" onSubmit={agendarCita}>
       <div className="px-4 py-2">

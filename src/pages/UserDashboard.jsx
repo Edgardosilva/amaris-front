@@ -7,33 +7,19 @@ const UserDashboard = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        verificarAutenticacion();
-    },[])
-
-    const verificarAutenticacion = async () => {
-        try {
-            const token = sessionStorage.getItem('access_token');
-            if (!token) {
-                throw new Error('No token found');
-            }
-    
-            const response = await fetch('http://localhost:3000/login/verificarToken', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`, // Envía el token en los headers
-                },
+        const checkAuth = async () => {
+          try {
+            const response = await fetch('http://localhost:3000/login/auth/me', {
+              credentials: 'include'
             });
-            if (!response.ok) {
-                throw new Error('No autorizado');
-            }
             const data = await response.json();
-            setIsAuthenticated(true)
-            return data.authenticated; // true si está autenticado
-        } catch (error) {
-            console.error('Error de autenticación:', error.message);
-            return false; // No autenticado
-        }
-    };
+            setIsAuthenticated(data.authenticated);
+          } catch (error) {
+            setIsAuthenticated(false);
+          }
+        };
+        checkAuth();
+      }, []);
     
 
     return (

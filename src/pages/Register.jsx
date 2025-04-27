@@ -22,10 +22,10 @@ const Register = () => {
                 body: JSON.stringify({ nombre, apellido, email, contraseña, telefono }),
             });
     
-            const result = await response.json(); // Obtiene la respuesta en JSON
+            const result = await response.json(); 
     
             if (response.ok) {
-                // 🔹 Muestra alerta de éxito
+        
                 await Swal.fire({
                     icon: "success",
                     title: "Registro exitoso!",
@@ -34,10 +34,9 @@ const Register = () => {
                     timer: 2000
                 });
     
-                console.log("Registro exitoso:", result);
-                form.reset(); // 🔹 Limpia el formulario después de registrar el usuario
+                form.reset(); 
             } else {
-                // 🔹 Muestra alerta de error con el mensaje del backend si existe
+        
                 Swal.fire({
                     icon: "error",
                     title: "Error en el registro",

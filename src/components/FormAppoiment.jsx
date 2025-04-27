@@ -4,13 +4,11 @@ import { useState } from 'react';
 const FormAppoiment = ({ formData, setFormData, setLoader }) => {
 
 
-    // Función para manejar el cambio de los campos del formulario
     const handleChange = (e) => {
         const { id, value } = e.target;
         setFormData({ ...formData, [id]: value });
     };
 
-    // Función para manejar el envío del formulario
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoader(true);

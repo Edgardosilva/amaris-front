@@ -16,14 +16,13 @@ const AdminCalendar = () => {
         if (!response.ok) throw new Error("Error en la respuesta del servidor");
 
         const data = await response.json();
-
-        // Verificar que start es válido antes de asignarlo
         const formattedEvents = data
-          .filter(event => event.start && !isNaN(new Date(event.start))) // Filtrar fechas inválidas
+          .filter(event => event.start && !isNaN(new Date(event.start))) 
           .map(event => ({
             id: event.id,
             title: event.title,
-            start: new Date(event.start), // Convertir a Date si es necesario
+            start: new Date(event.start),
+            state: event.state 
           }));
 
         setEvents(formattedEvents);
@@ -39,8 +38,20 @@ const AdminCalendar = () => {
     <div className='h-screen'>
       <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-          initialView="listWeek"
+          initialView="dayGridMonth"
           events={events}
+          eventDidMount={function changecolor(info) {
+            const dotContainer = info.el.getElementsByClassName('fc-list-event-graphic')[0];
+            const dot = dotContainer?.querySelector('span'); 
+            if (dot) {
+              if (info.event.extendedProps.state === "Confirmada") {
+                dot.style.borderColor = '#28a745'; 
+              } else {
+                dot.style.borderColor = '#007bff'; 
+              }
+              
+            }
+          }}
           height={650}
           headerToolbar={{
             left: 'prev,next today',

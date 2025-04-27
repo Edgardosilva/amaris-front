@@ -26,16 +26,11 @@ const CalendarWithTimes = ({ formData, setFormData, isFormData, setIsFormData })
   const [availableTimes, setAvailableTimes] = useState([]);
   const [selectedRange, setSelectedRange] = useState([]);
   const [isTimeSelected, setIsTimeSelected] = useState(false);
-  // const [avaibleBoxes, setAvaibleBoxes] = useState(['Cualquier box', 'Solo en gym']);
 
-  const unavailableDates = ['2024-11-13', '2024-11-15', '2024-11-14']; // Fechas no disponibles
 
-  // const handleDateChange = (date) => {
-  //   setSelectedDate(date.toISOString().split("T")[0]);
-  //   setNameProcedure(formData.procedimiento.name);
-  //   // generateAvailableTimes();
-  //   console.log(selectedDate)
-  // };
+  const unavailableDates = ['2024-11-13', '2024-11-15', '2024-11-14'];
+
+
 
   
   const fetchAvailableTimes = async (selectedDate) => {
@@ -77,12 +72,10 @@ const CalendarWithTimes = ({ formData, setFormData, isFormData, setIsFormData })
   }
 
   const handleTimeClick = (startTime) => {
-    const duration = formData.procedimiento.duration; // Duración en minutos
+    const duration = formData.procedimiento.duration; 
     const start = new Date(`2024-12-26T${startTime}`);
-    const range = [start.toTimeString().slice(0, 5)]; // Incluir el tiempo inicial en formato HH:mm
+    const range = [start.toTimeString().slice(0, 5)]; 
 
-
-    // Agregar intervalos de 15 minutos hasta cubrir la duración
     for (let i = 15; i <= duration; i += 15) {
       const nextTime = new Date(start.getTime() + i * 60 * 1000);
       range.push(nextTime.toTimeString().slice(0, 5));
@@ -93,13 +86,11 @@ const CalendarWithTimes = ({ formData, setFormData, isFormData, setIsFormData })
   };
   
   const handleDayClick = (date) => {
-    // Ajustar la zona horaria para evitar problemas con UTC
+ 
     const localDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  
     setSelectedDate(localDate);
     setSelectedRange([]);
   
-    console.log("Fecha seleccionada:", localDate.toISOString().split("T")[0]);
   };
   
   

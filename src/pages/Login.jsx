@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { use } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
@@ -23,6 +22,7 @@ const Login = () => {
             e.preventDefault();
             const response = await fetch("http://localhost:3000/login", {
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -35,10 +35,7 @@ const Login = () => {
             if (response.ok) {
                 const data = await response.json();
                 const token = data.token;
-                sessionStorage.setItem('access_token', token);
-                console.log("Login exitoso");
-    
-                // 🔹 Muestra la alerta y espera a que termine antes de navegar
+
                 Swal.fire({
                     position: "center",
                     icon: "success",
@@ -56,7 +53,7 @@ const Login = () => {
                 });
             }
         } catch (error) {
-            console.log(error);
+            console.error("Error al hacer login:", error);
             Swal.fire({
                 icon: "error",
                 title: "Error",

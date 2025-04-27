@@ -17,7 +17,7 @@ const Landing = () => {
     const theme = createTheme({
         palette: {
           primary: {
-            main: '#a6d230', // Color personalizado
+            main: '#a6d230', 
           },
         },
       });

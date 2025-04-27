@@ -8,9 +8,8 @@ const Layout = ({ children }) => {
             <div className="w-full flex justify-center ">
                 <Navbar />
             </div>
-            <section className="flex w-full ">
-                {/* <Sidebar /> */}
-                <div className=" h-full w-full flex justify-center ">
+            <section className="flex w-full">
+                <div className=" h-screen w-full flex justify-center ">
                     {children}
                 </div>
             </section>

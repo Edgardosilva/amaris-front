@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import UserDashboard from './pages/UserDashboard';
 import Landing from './pages/Landing';
 import AdminDashboard from './pages/AdminDashboard';
+import EmailConfirmation from './pages/EmailConfirmation';
 
 
 const AppRoutes = () => {
@@ -18,6 +19,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/userdashboard" element={<UserDashboard />} />
         <Route path="/adminDashboard" element={<AdminDashboard />} />
+        <Route path="/confirmar-cita/:token" element={<EmailConfirmation />} />
       </Routes>
     </Router>
   );
