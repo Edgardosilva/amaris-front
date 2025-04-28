@@ -24,14 +24,15 @@ const UserDashboard = () => {
   }, []);
 
   useEffect(() => {
-    if (isAuthenticated !== null) { // cuando se sabe si está autenticado o no
+    if (isAuthenticated === false) {
+      navigate('/login');
+    } else if (isAuthenticated === true) {
       const timer = setTimeout(() => {
         setIsLoading(false);
-      }, 1500); // 1.5 segundos
-
+      }, 1500); // 1.5 segundos de carga falsa extra solo para usuarios logueados
       return () => clearTimeout(timer);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
 
   if (isLoading) {
     return (
@@ -39,11 +40,6 @@ const UserDashboard = () => {
         <Loader />
       </div>
     );
-  }
-
-  if (!isAuthenticated) {
-    navigate('/login'); // si no está autenticado, lo manda al login
-    return null;
   }
 
   return (
