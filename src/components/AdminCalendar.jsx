@@ -12,7 +12,7 @@ const AdminCalendar = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await fetch("http://localhost:3000/appointments/getAllAppointments");
+        const response = await fetch("https://amaris-api-production.up.railway.app/appointments/getAllAppointments");
         if (!response.ok) throw new Error("Error en la respuesta del servidor");
 
         const data = await response.json();

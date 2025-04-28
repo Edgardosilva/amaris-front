@@ -4,6 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import './CalendarStyles.css';
 import DropdownTime from './DropdownTime';
 import { useEffect } from 'react';
+import Loader from './Loader';
 
 const procedures = {
   "Limpieza Facial Básica": 45,
@@ -38,7 +39,7 @@ const CalendarWithTimes = ({ formData, setFormData, isFormData, setIsFormData })
     try {
     
       const formattedDate = selectedDate.toISOString().split("T")[0]; 
-      const response = await fetch(`http://localhost:3000/appointments/available?selectedDate=${formattedDate}`);
+      const response = await fetch(`https://amaris-api-production.up.railway.app/appointments/available?selectedDate=${formattedDate}`);
       const data = await response.json();
       setAvailableTimes(data.availableTimes || []);
     } catch (error) {
@@ -103,31 +104,34 @@ const CalendarWithTimes = ({ formData, setFormData, isFormData, setIsFormData })
           value={selectedDate ? new Date(selectedDate) : null} 
           className="text-lg max-h-[390px]"
           tileDisabled={disableTile}
+          minDate={new Date()} 
         />
       </div>
       <section className='flex flex-col md:w-1/2 text-center'>
-        <div className=" bg-white">
-          {selectedDate && (
-            <div className=''>
-              <div className="p-6 flex flex-wrap gap-3 overflow-y-auto h-[300px] md:h-[390px] justify-center">
-                {availableTimes.map((time, index) => {
-                  const isInRange = selectedRange.includes(time);
+        {loading ? <Loader /> :
+          <div className=" bg-white">
+            {selectedDate && (
+              <div className=''>
+                <div className="p-6 flex flex-wrap gap-3 overflow-y-auto h-[300px] md:h-[390px] justify-center">
+                  {availableTimes.map((time, index) => {
+                    const isInRange = selectedRange.includes(time);
 
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => handleTimeClick(time)}
-                      className={`w-20 hover:bg-green-100 cursor-pointer rounded-md text-center p-2 ${isInRange ? "bg-green-100" : "bg-gray-100"
-                        }`}
-                    >
-                      {time}
-                    </div>
-                  );
-                })}
+                    return (
+                      <div
+                        key={index}
+                        onClick={() => handleTimeClick(time)}
+                        className={`w-20 hover:bg-green-100 cursor-pointer rounded-md text-center p-2 ${isInRange ? "bg-green-100" : "bg-gray-100"
+                          }`}
+                      >
+                        {time}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        }
         <div>
           {
               isTimeSelected && (

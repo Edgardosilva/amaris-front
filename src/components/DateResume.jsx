@@ -6,29 +6,31 @@ import Swal from 'sweetalert2';
 
 const DateResume = ({ formData, setFormData }) => {
 
-
   useEffect(() => {
     const getUserFromCookie = async () => {
       try {
-        const response = await fetch('http://localhost:3000/login/auth/me', {
-          credentials: 'include'
+        const response = await fetch('https://amaris-api-production.up.railway.app/login/auth/me', {
+          credentials: 'include',
         });
         const data = await response.json();
         if (data.authenticated && data.user?.id) {
-          setFormData(prevFormData => ({
+          // Actualizar formData con el id del usuario
+          setFormData((prevFormData) => ({
             ...prevFormData,
-            idUsuarioActual: data.user.id
+            idUsuarioActual: data.user.id,
           }));
-          userDataResume.current = formData
         } else {
           console.warn('No se pudo obtener el usuario');
         }
       } catch (error) {
         console.error('Error al obtener el usuario desde el backend:', error);
+        // Mostrar un alert en caso de error
+        Swal.fire('Error', 'No se pudo obtener el usuario desde el backend', 'error');
       }
     };
+
     getUserFromCookie();
-  }, []);
+  }, [setFormData]); //
   
 
   const transformarHora = (hora) => {
@@ -61,7 +63,7 @@ const DateResume = ({ formData, setFormData }) => {
       e.preventDefault();
       try {
   
-        const authResponse = await fetch("http://localhost:3000/login/auth/me", {
+        const authResponse = await fetch("https://amaris-api-production.up.railway.app/login/auth/me", {
           method: "GET",
           credentials: "include",
         });
@@ -90,8 +92,10 @@ const DateResume = ({ formData, setFormData }) => {
         });
     
         if (!result.isConfirmed) return;
-    
-        const response = await fetch("http://localhost:3000/appointments", {
+
+
+
+        const response = await fetch("https://amaris-api-production.up.railway.app/appointments", {
           method: "POST",
           credentials: "include", 
           headers: {

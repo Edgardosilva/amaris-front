@@ -24,7 +24,7 @@ export default function DropDownProfile({ user }) {
 
   const logout = async () => {
     try {
-      await fetch('http://localhost:3000/login/logout', {
+      await fetch('https://amaris-api-production.up.railway.app/login/logout', {
         method: 'POST',
         credentials: 'include', 
       });

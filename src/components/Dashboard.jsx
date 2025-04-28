@@ -24,7 +24,7 @@ const Dashboard = () => {
 
   const fetchAppointments = async () => {
     try {
-      const response = await fetch('http://localhost:3000/appointments/getUserAppointments', {
+      const response = await fetch('https://amaris-api-production.up.railway.app/appointments/getUserAppointments', {
         method: 'GET',
         credentials: 'include', // 👈 habilita el envío de cookies
       });
@@ -58,18 +58,18 @@ const handleDeleteEvent = async (appointment) => {
     }
 
     const result = await Swal.fire({
-      title: "¿Eliminar cita?",
+      title: "¿Cancelar cita?",
       text: "Esta acción no se puede deshacer.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, eliminar",
+      confirmButtonText: "Sí, cencalar",
     });
 
     if (!result.isConfirmed) return;
 
-    const response = await fetch("http://localhost:3000/appointments/deleteAppointments", {
+    const response = await fetch("https://amaris-api-production.up.railway.app/appointments/deleteAppointments", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -83,16 +83,16 @@ const handleDeleteEvent = async (appointment) => {
     if (response.ok) {
       Swal.fire({
         icon: "success",
-        title: "Cita eliminada",
-        text: "La cita fue eliminada correctamente.",
+        title: "Cita cancelada",
+        text: "La cita fue cancelada correctamente.",
       });
 
       setUserAppointments((prev) => prev.filter((appt) => appt.id !== appointment.id));
     } else {
       Swal.fire({
         icon: "error",
-        title: "Error al eliminar",
-        text: data.message || "Hubo un problema al eliminar la cita.",
+        title: "Error al cancelar",
+        text: data.message || "Hubo un problema al cancelar la cita.",
       });
     }
   } catch (error) {

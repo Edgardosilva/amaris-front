@@ -9,7 +9,7 @@ const UserDashboard = () => {
     useEffect(() => {
         const checkAuth = async () => {
           try {
-            const response = await fetch('http://localhost:3000/login/auth/me', {
+            const response = await fetch('https://amaris-api-production.up.railway.app/login/auth/me', {
               credentials: 'include'
             });
             const data = await response.json();

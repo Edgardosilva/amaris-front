@@ -14,7 +14,7 @@ const Register = () => {
         const telefono = data.get('telefono');
     
         try {
-            const response = await fetch('http://localhost:3000/login/register', {
+            const response = await fetch('https://amaris-api-production.up.railway.app/login/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
