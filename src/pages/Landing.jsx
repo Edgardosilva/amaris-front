@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import GalleryImg from '../components/galleryImg';
+import GalleryImg from '../components/GalleryImg';
 
 
 const Landing = () => {
