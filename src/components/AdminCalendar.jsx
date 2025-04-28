@@ -21,10 +21,9 @@ const AdminCalendar = () => {
           .map(event => ({
             id: event.id,
             title: event.title,
-            start: new Date(event.start),
+            start: new Date(event.start + "Z"),
             state: event.state 
           }));
-
         setEvents(formattedEvents);
       } catch (error) {
         console.error("Error fetching events:", error);
