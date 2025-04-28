@@ -9,6 +9,15 @@ import { list } from 'postcss';
 const AdminCalendar = () => {
   const [events, setEvents] = useState([]);
 
+  const fixLocalDate = (dateString) => {
+    const [datePart, timePart] = dateString.split('T');
+    const [year, month, day] = datePart.split('-').map(Number);
+    const [hours, minutes, seconds] = timePart.split(':').map(Number);
+  
+    return new Date(year, month - 1, day, hours, minutes, seconds);
+  };
+  
+
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
@@ -21,7 +30,7 @@ const AdminCalendar = () => {
           .map(event => ({
             id: event.id,
             title: event.title,
-            start: event.start,
+            start: fixLocalDate(event.start),
             state: event.state 
           }));
         setEvents(formattedEvents);
