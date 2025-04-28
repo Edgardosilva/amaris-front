@@ -38,7 +38,7 @@ const AdminCalendar = () => {
             return {
               id: event.id,
               title: event.title,
-              start: fixedDate,
+              start: new Date(event.start.replace('Z', '')), 
               state: event.state
             };
           })
