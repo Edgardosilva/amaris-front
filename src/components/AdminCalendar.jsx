@@ -10,37 +10,49 @@ const AdminCalendar = () => {
   const [events, setEvents] = useState([]);
 
   const fixLocalDate = (dateString) => {
-    const [datePart, timePart] = dateString.split('T');
+    if (!dateString) return null; // ⚡ evita error si es null/undefined
+  
+    const parts = dateString.split('T');
+    if (parts.length !== 2) return null; // ⚡ evita error si no tiene T
+  
+    const [datePart, timePart] = parts;
     const [year, month, day] = datePart.split('-').map(Number);
     const [hours, minutes, seconds] = timePart.split(':').map(Number);
   
     return new Date(year, month - 1, day, hours, minutes, seconds);
   };
   
-
+  
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
         const response = await fetch("https://amaris-api-production.up.railway.app/appointments/getAllAppointments");
         if (!response.ok) throw new Error("Error en la respuesta del servidor");
-
+  
         const data = await response.json();
         const formattedEvents = data
-          .filter(event => event.start && !isNaN(new Date(event.start))) 
-          .map(event => ({
-            id: event.id,
-            title: event.title,
-            start: fixLocalDate(event.start),
-            state: event.state 
-          }));
+          .map(event => {
+            const fixedDate = fixLocalDate(event.start);
+            if (!fixedDate) return null;
+  
+            return {
+              id: event.id,
+              title: event.title,
+              start: fixedDate,
+              state: event.state
+            };
+          })
+          .filter(event => event !== null);
+  
         setEvents(formattedEvents);
       } catch (error) {
         console.error("Error fetching events:", error);
       }
     };
-
+  
     fetchAppointments();
   }, []);
+  
 
   return (
     <div className='h-screen'>
