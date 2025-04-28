@@ -21,7 +21,7 @@ const AdminCalendar = () => {
           .map(event => ({
             id: event.id,
             title: event.title,
-            start: new Date(event.start + "Z"),
+            start: event.start,
             state: event.state 
           }));
         setEvents(formattedEvents);
